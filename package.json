@@ -1,8 +1,8 @@
 {
   "name": "telegraf-flow",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Telegraf flow/quiz/dialog engine",
-  "main": "lib/quiz.js",
+  "main": "lib/flow.js",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/telegraf/telegraf-flow.git"
@@ -25,7 +25,7 @@
     "node": ">=4.0.0"
   },
   "files": [
-    "lib/quiz.js"
+    "lib/flow.js"
   ],
   "scripts": {
     "test": "mocha test --require should"
