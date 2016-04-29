@@ -1,17 +1,19 @@
-# Telegraf quiz engine
+# Telegraf dialog engine
 
 [![Build Status](https://img.shields.io/travis/telegraf/telegraf-flow.svg?branch=master&style=flat-square)](https://travis-ci.org/telegraf/telegraf-flow)
 [![NPM Version](https://img.shields.io/npm/v/telegraf-flow.svg?style=flat-square)](https://www.npmjs.com/package/telegraf-flow)
 
 Dialog engine for [Telegraf](https://github.com/telegraf/telegraf).
 
+Based on [Kwiz library](https://github.com/telegraf/kwiz).
+
+> *IMPORTANT: telegraf-flow require any session middleware*
+
 ## Installation
 
 ```js
 $ npm install telegraf-flow
 ```
-
-*IMPORTANT: telegraf-flow require any session middleware*
 
 ## Example
   
@@ -36,7 +38,7 @@ app.use(session())
 app.use(flow.middleware())
 
 app.hear('/flow', function * () {
-  yield this.startFlow(quiz.name) 
+  yield this.startFlow(sampleFlow.name) 
 })
 
 app.startPolling()
