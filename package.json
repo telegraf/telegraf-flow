@@ -1,0 +1,46 @@
+{
+  "name": "telegraf-flow",
+  "version": "0.0.0",
+  "description": "Telegraf flow/quiz/dialog engine",
+  "main": "lib/quiz.js",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/telegraf/telegraf-flow.git"
+  },
+  "keywords": [
+    "telegram",
+    "telegraf",
+    "bot framework",
+    "flow",
+    "quiz",
+    "middleware"
+  ],
+  "author": "Vitaly Domnikov <dotcypress@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/telegraf/telegraf-flow/issues"
+  },
+  "homepage": "https://github.com/telegraf/telegraf-flow#readme",
+  "engines": {
+    "node": ">=4.0.0"
+  },
+  "files": [
+    "lib/quiz.js"
+  ],
+  "scripts": {
+    "test": "mocha test --require should"
+  },
+  "dependencies": {
+    "debug": "^2.2.0",
+    "kwiz": "^1.0.2"
+  },
+  "peerDependencies": {
+    "telegraf": "^0.4.2"
+  },
+  "devDependencies": {
+    "mocha": "^2.4.5",
+    "should": "^8.3.1",
+    "telegraf": "^0.4.2",
+    "telegraf-session-rethinkdb": "^0.2.0"
+  }
+}
