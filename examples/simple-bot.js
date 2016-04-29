@@ -48,9 +48,14 @@ var sampleFlow = {
 var app = new Telegraf(process.env.BOT_TOKEN)
 var flow = new Flow()
 
+// Specify cancel flow command, default value: `/cancel`
+flow.cancelCommand = '/stop'
+
 // Register flow and completion handler
 flow.register(sampleFlow, function * () {
-  this.reply(`Flow completed with results:\n${JSON.stringify(this.state.flow.answers)}`)
+  var results = JSON.stringify(this.state.flow, null, 2)
+  var status = this.state.flow.canceled ? 'canceled': 'completed'
+  this.reply(`Flow ${status}\n${results}`)
 })
 
 app.use(session())
