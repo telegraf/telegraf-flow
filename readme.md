@@ -44,7 +44,7 @@ app.hear('/flow', function * () {
 app.startPolling()
 ```
 
-[Full examples](https://github.com/telegraf/telegraf-flow/tree/master/examples/simple-bot.js).
+[Other examples](https://github.com/telegraf/telegraf-flow/tree/master/examples/).
 
 ## License
 
