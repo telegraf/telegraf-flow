@@ -1,6 +1,6 @@
 {
   "name": "telegraf-flow",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Telegraf flow/quiz/dialog engine",
   "main": "lib/flow.js",
   "repository": {
@@ -43,7 +43,6 @@
   },
   "devDependencies": {
     "mocha": "^2.4.5",
-    "should": "^8.3.1",
-    "telegraf": "^0.4.2"
+    "should": "^8.3.1"
   }
 }
