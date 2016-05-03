@@ -7,7 +7,7 @@ Dialog engine for [Telegraf](https://github.com/telegraf/telegraf).
 
 Based on [Kwiz library](https://github.com/telegraf/kwiz).
 
-> *IMPORTANT: telegraf-flow require any session middleware*
+telegraf-flow depends on session middleware. For testing purposes you can use Flow.memorySession(). For production environments use any [`telegraf-session-*`](https://www.npmjs.com/search?q=telegraf-session) middleware.
 
 ## Installation
 
@@ -20,31 +20,40 @@ $ npm install telegraf-flow
 ```js
 var Telegraf = require('telegraf')
 var Flow = require('telegraf-flow')
-var session = require('telegraf-session-*')
 
+// See https://github.com/telegraf/kwiz for details
 var sampleFlow = {
-  ...
+  questions: [...]
 }
 
 var app = new Telegraf(process.env.BOT_TOKEN)
 var flow = new Flow()
 
-// Register sample flow with completion handler
-flow.register(sampleFlow, function * () {
-  this.reply(`Flow completed with results:\n${JSON.stringify(this.state.flow.answers)}`)
-})
+// For testing only
+app.use(Flow.memorySession())
 
-app.use(session())
+// Add flow middleware
 app.use(flow.middleware())
 
-app.hear('/flow', function * () {
-  yield this.startFlow(sampleFlow.name) 
+// Register flow
+flow.registerFlow('beveragePoll', sampleFlow)
+
+// Add flow completion handler
+flow.onComplete('beveragePoll', function * () {
+  var results = JSON.stringify(this.state.flow, null, 2)
+  var status = this.state.flow.canceled ? 'canceled' : 'completed'
+  this.reply(`Flow ${status} ${results}`)
+})
+
+// start flow on command
+app.hears('/flow', function * () {
+  yield this.startFlow('beveragePoll')
 })
 
 app.startPolling()
 ```
 
-[Other examples](https://github.com/telegraf/telegraf-flow/tree/master/examples/).
+[Full example](https://github.com/telegraf/telegraf-flow/tree/master/examples/).
 
 ## License
 
