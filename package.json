@@ -25,14 +25,18 @@
     "node": ">=4.0.0"
   },
   "files": [
-    "lib/flow.js"
+    "lib/flow.js",
+    "lib/memory-session.js"
   ],
   "scripts": {
     "test": "mocha test --require should"
   },
   "dependencies": {
     "debug": "^2.2.0",
-    "kwiz": "^1.1.0"
+    "escape-html": "^1.0.3",
+    "koa-compose": "^2.4.0",
+    "kwiz": "^1.2.0",
+    "markdown-escape": "^1.0.1"
   },
   "peerDependencies": {
     "telegraf": "^0.4.2"
@@ -40,7 +44,6 @@
   "devDependencies": {
     "mocha": "^2.4.5",
     "should": "^8.3.1",
-    "telegraf": "^0.4.2",
-    "telegraf-session-rethinkdb": "^0.2.0"
+    "telegraf": "^0.4.2"
   }
 }
