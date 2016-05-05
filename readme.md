@@ -3,7 +3,7 @@
 [![Build Status](https://img.shields.io/travis/telegraf/telegraf-flow.svg?branch=master&style=flat-square)](https://travis-ci.org/telegraf/telegraf-flow)
 [![NPM Version](https://img.shields.io/npm/v/telegraf-flow.svg?style=flat-square)](https://www.npmjs.com/package/telegraf-flow)
 
-Dialog engine for [Telegraf](https://github.com/telegraf/telegraf).
+Flow/Dialog engine for [Telegraf](https://github.com/telegraf/telegraf).
 
 Based on [Kwiz library](https://github.com/telegraf/kwiz).
 
@@ -15,14 +15,50 @@ telegraf-flow depends on session middleware. For testing purposes you can use Fl
 $ npm install telegraf-flow
 ```
 
-## Example
+## Flow Example
+  
+```js
+var Telegraf = require('telegraf')
+var Flow = require('telegraf-flow')
+
+var app = new Telegraf(process.env.BOT_TOKEN)
+var flow = new Flow()
+
+// For testing only
+app.use(Flow.memorySession())
+
+// Add flow middleware
+app.use(flow.middleware())
+
+// Flows, flows everywhere
+flow.onFlowStart('deadbeef', function * () {
+  yield this.reply(this.state.flow.message || 'Hi')
+})
+
+flow.onFlow('deadbeef', function * () {
+  if (this.message && this.message.text && this.message.text.toLowerCase() == 'hi') {
+    yield this.reply('Buy')
+    return this.stopFlow()
+  }
+  yield this.startFlow('deadbeef', {message: 'Really?'})
+})
+
+// start flow on command
+app.hears('/flow', function * () {
+  yield this.startFlow('deadbeef')
+})
+
+app.startPolling()
+```
+
+## Quiz Example
   
 ```js
 var Telegraf = require('telegraf')
 var Flow = require('telegraf-flow')
 
 // See https://github.com/telegraf/kwiz for details
-var sampleFlow = {
+var sampleQuiz = {
   questions: [...]
 }
 
@@ -35,19 +71,19 @@ app.use(Flow.memorySession())
 // Add flow middleware
 app.use(flow.middleware())
 
-// Register flow
-flow.registerFlow('beveragePoll', sampleFlow)
+// Register quiz
+flow.registerQuiz('beveragePoll', sampleQuiz)
 
-// Add flow completion handler
-flow.onComplete('beveragePoll', function * () {
-  var results = JSON.stringify(this.state.flow, null, 2)
-  var status = this.state.flow.canceled ? 'canceled' : 'completed'
+// Add quiz completion handler
+flow.onQuizComplete('beveragePoll', function * () {
+  var results = JSON.stringify(this.state.quiz, null, 2)
+  var status = this.state.quiz.canceled ? 'canceled' : 'completed'
   this.reply(`Flow ${status} ${results}`)
 })
 
-// start flow on command
+// start quiz on command
 app.hears('/flow', function * () {
-  yield this.startFlow('beveragePoll')
+  yield this.startQuiz('beveragePoll')
 })
 
 app.startPolling()

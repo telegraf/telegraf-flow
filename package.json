@@ -39,7 +39,7 @@
     "markdown-escape": "^1.0.1"
   },
   "peerDependencies": {
-    "telegraf": "^0.4.2"
+    "telegraf": "^0.4.4"
   },
   "devDependencies": {
     "mocha": "^2.4.5",
