@@ -75,7 +75,7 @@ app.use(flow.middleware())
 flow.registerQuiz('beveragePoll', sampleQuiz)
 
 // Add quiz completion handler
-flow.onQuizComplete('beveragePoll', function * () {
+flow.onQuizCompleted('beveragePoll', function * () {
   var results = JSON.stringify(this.state.quiz, null, 2)
   var status = this.state.quiz.canceled ? 'canceled' : 'completed'
   this.reply(`Flow ${status} ${results}`)
