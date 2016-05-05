@@ -3,7 +3,7 @@ var Telegraf = require('telegraf')
 var Flow = require('../lib/flow')
 
 // See https://github.com/telegraf/kwiz for details
-var sampleFlow = {
+var sampleQuiz = {
   questions: [
     {
       message: 'What is your name?',
@@ -55,32 +55,40 @@ app.use(Flow.memorySession())
 // Add flow middleware
 app.use(flow.middleware())
 
-// Specify cancel flow command, default value: `/cancel`
-flow.cancelCommand = '/stop'
+// Specify cancel quiz commands, default value: [`/cancel`]
+flow.cancelCommands = ['/stop', 'please stop']
 
-// Register flow
-flow.registerFlow('beveragePoll', sampleFlow)
+// Register quiz
+flow.registerQuiz('beveragePoll', sampleQuiz)
 
-// Add flow message handler
-flow.onMessage('beveragePoll', function * () {
-  debug('Before', this.state)
+// Add quiz completion handler
+flow.onQuizCompleted('beveragePoll', function * () {
+  var results = JSON.stringify(this.state.quiz, null, 2)
+  var status = this.state.quiz.canceled ? 'canceled' : 'completed'
+  yield this.reply(`Quiz ${status} ${results}`)
 })
 
-// Add flow progress handler
-flow.onReply('beveragePoll', function * () {
-  debug('After', this.state)
+// Flows, flows everywhere
+flow.onFlowStart('deadbeef', function * () {
+  yield this.reply(this.state.flow.message || 'Hi')
 })
 
-// Add flow completion handler
-flow.onComplete('beveragePoll', function * () {
-  var results = JSON.stringify(this.state.flow, null, 2)
-  var status = this.state.flow.canceled ? 'canceled' : 'completed'
-  this.reply(`Flow ${status} ${results}`)
+flow.onFlow('deadbeef', function * () {
+  if (this.message && this.message.text && this.message.text.toLowerCase() == 'hi') {
+    yield this.reply('Buy')
+    return this.stopFlow()
+  }
+  yield this.startFlow('deadbeef', {message: 'Really?'})
+})
+
+// start quiz on command
+app.hears('/quiz', function * () {
+  yield this.startQuiz('beveragePoll')
 })
 
 // start flow on command
 app.hears('/flow', function * () {
-  yield this.startFlow('beveragePoll')
+  yield this.startFlow('deadbeef')
 })
 
 app.startPolling(100)
