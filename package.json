@@ -1,6 +1,6 @@
 {
   "name": "telegraf-flow",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "description": "Telegraf flow/quiz/dialog engine",
   "main": "lib/flow.js",
   "repository": {
