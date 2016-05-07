@@ -1,9 +1,9 @@
-# Telegraf dialog engine
+# Telegraf flow engine
 
 [![Build Status](https://img.shields.io/travis/telegraf/telegraf-flow.svg?branch=master&style=flat-square)](https://travis-ci.org/telegraf/telegraf-flow)
 [![NPM Version](https://img.shields.io/npm/v/telegraf-flow.svg?style=flat-square)](https://www.npmjs.com/package/telegraf-flow)
 
-Flow/Dialog engine for [Telegraf](https://github.com/telegraf/telegraf).
+Flow engine for [Telegraf](https://github.com/telegraf/telegraf).
 
 Based on [Kwiz library](https://github.com/telegraf/kwiz).
 
@@ -12,8 +12,6 @@ Based on [Kwiz library](https://github.com/telegraf/kwiz).
 ```js
 $ npm install telegraf-flow
 ```
-
-telegraf-flow depends on session middleware. For testing purposes you can use Flow.memorySession(). For production environment use any [`telegraf-session-*`](https://www.npmjs.com/search?q=telegraf-session) middleware.
 
 ## Flow Example
   
@@ -24,8 +22,7 @@ var Flow = require('telegraf-flow')
 var app = new Telegraf(process.env.BOT_TOKEN)
 var flow = new Flow()
 
-// For testing only
-app.use(Flow.memorySession())
+app.use(Telegraf.memorySession())
 
 // Add flow middleware
 app.use(flow.middleware())
@@ -62,14 +59,13 @@ var sampleQuiz = {
   questions: [...]
 }
 
-var app = new Telegraf(process.env.BOT_TOKEN)
+var telegraf = new Telegraf(process.env.BOT_TOKEN)
 var flow = new Flow()
 
-// For testing only
-app.use(Flow.memorySession())
+telegraf.use(Telegraf.memorySession())
 
 // Add flow middleware
-app.use(flow.middleware())
+telegraf.use(flow.middleware())
 
 // Register quiz
 flow.registerQuiz('beveragePoll', sampleQuiz)
@@ -82,11 +78,11 @@ flow.onQuizCompleted('beveragePoll', function * () {
 })
 
 // start quiz on command
-app.hears('/flow', function * () {
+telegraf.hears('/flow', function * () {
   yield this.startQuiz('beveragePoll')
 })
 
-app.startPolling()
+telegraf.startPolling()
 ```
 
 [Full example](https://github.com/telegraf/telegraf-flow/tree/master/examples/).
