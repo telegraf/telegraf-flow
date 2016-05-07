@@ -1,4 +1,3 @@
-var debug = require('debug')('telegraf:flow-example')
 var Telegraf = require('telegraf')
 var Flow = require('../lib/flow')
 
@@ -7,7 +6,7 @@ var sampleQuiz = {
   questions: [
     {
       message: 'What is your name?',
-      answer: { type: 'string', id: 'name'}
+      answer: { type: 'string', id: 'name' }
     },
     {
       message: 'Got it!\n{{answers.name}}, how old are you?',
@@ -46,14 +45,14 @@ var sampleQuiz = {
   ]
 }
 
-var app = new Telegraf(process.env.BOT_TOKEN)
+var telegraf = new Telegraf(process.env.BOT_TOKEN)
 var flow = new Flow()
 
 // For testing only. Session will be lost on app restart
-app.use(Flow.memorySession())
+telegraf.use(Telegraf.memorySession())
 
 // Add flow middleware
-app.use(flow.middleware())
+telegraf.use(flow.middleware())
 
 // Specify cancel quiz commands, default value: [`/cancel`]
 flow.cancelCommands = ['/stop', 'please stop']
@@ -74,7 +73,7 @@ flow.onFlowStart('deadbeef', function * () {
 })
 
 flow.onFlow('deadbeef', function * () {
-  if (this.message && this.message.text && this.message.text.toLowerCase() == 'hi') {
+  if (this.message && this.message.text && this.message.text.toLowerCase() === 'hi') {
     yield this.reply('Buy')
     return this.stopFlow()
   }
@@ -82,13 +81,13 @@ flow.onFlow('deadbeef', function * () {
 })
 
 // start quiz on command
-app.hears('/quiz', function * () {
+telegraf.hears('/quiz', function * () {
   yield this.startQuiz('beveragePoll')
 })
 
 // start flow on command
-app.hears('/flow', function * () {
+telegraf.hears('/flow', function * () {
   yield this.startFlow('deadbeef')
 })
 
-app.startPolling(100)
+telegraf.startPolling()
