@@ -1,4 +1,3 @@
-var debug = require('debug')('telegraf:flow-example')
 var Telegraf = require('telegraf')
 var Flow = require('../lib/flow')
 
@@ -7,7 +6,7 @@ var sampleQuiz = {
   questions: [
     {
       message: 'What is your name?',
-      answer: { type: 'string', id: 'name'}
+      answer: { type: 'string', id: 'name' }
     },
     {
       message: 'Got it!\n{{answers.name}}, how old are you?',
@@ -74,7 +73,7 @@ flow.onFlowStart('deadbeef', function * () {
 })
 
 flow.onFlow('deadbeef', function * () {
-  if (this.message && this.message.text && this.message.text.toLowerCase() == 'hi') {
+  if (this.message && this.message.text && this.message.text.toLowerCase() === 'hi') {
     yield this.reply('Buy')
     return this.stopFlow()
   }

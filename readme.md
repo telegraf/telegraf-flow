@@ -7,13 +7,13 @@ Flow/Dialog engine for [Telegraf](https://github.com/telegraf/telegraf).
 
 Based on [Kwiz library](https://github.com/telegraf/kwiz).
 
-telegraf-flow depends on session middleware. For testing purposes you can use Flow.memorySession(). For production environments use any [`telegraf-session-*`](https://www.npmjs.com/search?q=telegraf-session) middleware.
-
 ## Installation
 
 ```js
 $ npm install telegraf-flow
 ```
+
+telegraf-flow depends on session middleware. For testing purposes you can use Flow.memorySession(). For production environment use any [`telegraf-session-*`](https://www.npmjs.com/search?q=telegraf-session) middleware.
 
 ## Flow Example
   
