@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/telegraf/telegraf-flow#readme",
   "engines": {
-    "node": ">=4.0.0"
+    "node": ">=4.4.4"
   },
   "files": [
     "lib/flow.js"
@@ -39,11 +39,11 @@
     "markdown-escape": "^1.0.1"
   },
   "peerDependencies": {
-    "telegraf": ">=0.5.0"
+    "telegraf": ">=0.7.0"
   },
   "devDependencies": {
     "mocha": "^2.4.5",
     "should": "^8.3.1",
-    "telegraf": "^0.5.0"
+    "telegraf": ">=0.7.0"
   }
 }

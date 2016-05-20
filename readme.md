@@ -3,7 +3,7 @@
 [![Build Status](https://img.shields.io/travis/telegraf/telegraf-flow.svg?branch=master&style=flat-square)](https://travis-ci.org/telegraf/telegraf-flow)
 [![NPM Version](https://img.shields.io/npm/v/telegraf-flow.svg?style=flat-square)](https://www.npmjs.com/package/telegraf-flow)
 
-Flow engine for [Telegraf](https://github.com/telegraf/telegraf).
+Flow engine for [Telegraf (Telegram bot framework)](https://github.com/telegraf/telegraf).
 
 Based on [Kwiz library](https://github.com/telegraf/kwiz).
 
