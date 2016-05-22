@@ -27,18 +27,21 @@ app.use(Telegraf.memorySession())
 // Add flow middleware
 app.use(flow.middleware())
 
-// Flows, flows everywhere
-flow.onFlowStart('deadbeef', function * () {
-  yield this.reply(this.state.flow.message || 'Hi')
-})
-
-flow.onFlow('deadbeef', function * () {
-  if (this.message && this.message.text && this.message.text.toLowerCase() == 'hi') {
-    yield this.reply('Buy')
-    return this.stopFlow()
+// Register flow
+flow.registerFlow('deadbeef',
+  // flow start handler
+  function * () {
+    yield this.reply(this.state.flow.message || 'Hi')
+  },
+  // flow handler
+  function * () {
+    if (this.message && this.message.text && this.message.text.toLowerCase() === 'hi') {
+      yield this.reply('Buy')
+      return this.stopFlow()
+    }
+    yield this.startFlow('deadbeef', {message: 'Really?'})
   }
-  yield this.startFlow('deadbeef', {message: 'Really?'})
-})
+)
 
 // start flow on command
 app.hears('/flow', function * () {
@@ -68,13 +71,10 @@ telegraf.use(Telegraf.memorySession())
 telegraf.use(flow.middleware())
 
 // Register quiz
-flow.registerQuiz('beveragePoll', sampleQuiz)
-
-// Add quiz completion handler
-flow.onQuizCompleted('beveragePoll', function * () {
+flow.registerQuiz('beveragePoll', sampleQuiz, function * () {
   var results = JSON.stringify(this.state.quiz, null, 2)
   var status = this.state.quiz.canceled ? 'canceled' : 'completed'
-  this.reply(`Flow ${status} ${results}`)
+  yield this.reply(`Quiz ${status} ${results}`)
 })
 
 // start quiz on command

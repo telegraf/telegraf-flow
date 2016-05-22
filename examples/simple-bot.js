@@ -51,43 +51,41 @@ var flow = new Flow()
 // For testing only. Session will be lost on app restart
 telegraf.use(Telegraf.memorySession())
 
-// Add flow middleware
+// Add middleware
 telegraf.use(flow.middleware())
 
-// Specify cancel quiz commands, default value: [`/cancel`]
-flow.cancelCommands = ['/stop', 'please stop']
+// Register flow
+flow.registerFlow('deadbeef',
+  function * () {
+    yield this.reply(this.state.flow.message || 'Hi')
+  },
+  function * () {
+    if (this.message && this.message.text && this.message.text.toLowerCase() === 'hi') {
+      yield this.reply('Buy')
+      return this.stopFlow()
+    }
+    yield this.startFlow('deadbeef', {message: 'Really?'})
+  }
+)
+
+// start flow on command
+telegraf.hears('/flow', function * () {
+  yield this.startFlow('deadbeef')
+})
 
 // Register quiz
-flow.registerQuiz('beveragePoll', sampleQuiz)
-
-// Add quiz completion handler
-flow.onQuizCompleted('beveragePoll', function * () {
+flow.registerQuiz('beveragePoll', sampleQuiz, function * () {
   var results = JSON.stringify(this.state.quiz, null, 2)
   var status = this.state.quiz.canceled ? 'canceled' : 'completed'
   yield this.reply(`Quiz ${status} ${results}`)
 })
 
-// Flows, flows everywhere
-flow.onFlowStart('deadbeef', function * () {
-  yield this.reply(this.state.flow.message || 'Hi')
-})
-
-flow.onFlow('deadbeef', function * () {
-  if (this.message && this.message.text && this.message.text.toLowerCase() === 'hi') {
-    yield this.reply('Buy')
-    return this.stopFlow()
-  }
-  yield this.startFlow('deadbeef', {message: 'Really?'})
-})
+// Specify cancel quiz commands, default value: [`/cancel`]
+flow.cancelCommands = ['/cancel', '/stop', 'please stop']
 
 // start quiz on command
 telegraf.hears('/quiz', function * () {
   yield this.startQuiz('beveragePoll')
-})
-
-// start flow on command
-telegraf.hears('/flow', function * () {
-  yield this.startFlow('deadbeef')
 })
 
 telegraf.startPolling()
