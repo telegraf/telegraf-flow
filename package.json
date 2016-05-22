@@ -36,13 +36,13 @@
     "kwiz": "^1.2.0"
   },
   "peerDependencies": {
-    "telegraf": ">=0.8.0"
+    "telegraf": ">=0.9.5"
   },
   "devDependencies": {
     "eslint": "^2.10.2",
     "eslint-plugin-mocha": "^2.2.0",
     "mocha": "^2.4.5",
     "should": "^8.3.1",
-    "telegraf": ">=0.8.0"
+    "telegraf": ">=0.9.5"
   }
 }
