@@ -1,7 +1,7 @@
 {
   "name": "telegraf-flow",
-  "version": "1.0.0",
-  "description": "Telegraf flow/quiz/dialog engine",
+  "version": "1.1.0",
+  "description": "Telegraf flow engine",
   "main": "lib/flow.js",
   "repository": {
     "type": "git",
@@ -13,7 +13,7 @@
     "telegraf",
     "bot framework",
     "flow",
-    "quiz",
+    "FSM",
     "middleware"
   ],
   "author": "Vitaly Domnikov <dotcypress@gmail.com>",
@@ -32,8 +32,7 @@
     "test": "mocha test --require should"
   },
   "dependencies": {
-    "debug": "^2.2.0",
-    "kwiz": "^1.2.0"
+    "debug": "^2.2.0"
   },
   "peerDependencies": {
     "telegraf": "^1.0.0"
