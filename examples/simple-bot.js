@@ -18,15 +18,15 @@ flow.registerFlow('deadbeef',
   function * () {
     if (this.message && this.message.text && this.message.text.toLowerCase() === 'hi') {
       yield this.reply('Buy')
-      return this.stopFlow()
+      return this.flow.stop()
     }
-    yield this.startFlow('deadbeef', {message: 'Really?'})
+    yield this.flow.start('deadbeef', {message: 'Really?'})
   }
 )
 
 // start flow on command
 telegraf.hears('/flow', function * () {
-  yield this.startFlow('deadbeef')
+  yield this.flow.start('deadbeef')
 })
 
 telegraf.startPolling()
