@@ -15,10 +15,10 @@ $ npm install telegraf-flow
   
 ```js
 var Telegraf = require('telegraf')
-var Flow = require('telegraf-flow')
+var TelegrafFlow = require('telegraf-flow')
 
 var app = new Telegraf(process.env.BOT_TOKEN)
-var flow = new Flow()
+var flow = new TelegrafFlow()
 
 app.use(Telegraf.memorySession())
 
@@ -37,16 +37,95 @@ flow.registerFlow('deadbeef',
       yield this.reply('Buy')
       return this.stopFlow()
     }
-    yield this.startFlow('deadbeef', {message: 'Really?'})
+    yield this.flow.start('deadbeef', {message: 'Really?'})
   }
 )
 
 // start flow on command
 app.hears('/flow', function * () {
-  yield this.startFlow('deadbeef')
+  yield this.flow.start('deadbeef')
 })
 
 app.startPolling()
+```
+
+## API
+
+
+- [`new TelegrafFlow()`](#new)
+  - [`.registerFlow(flowId, [startHandlers, handlers, endHandlers])`](#registerflow)
+  - [`.onFlowStart(flowId, handler[], [handler...])`](#onflowstart)
+  - [`.onFlow(flowId, handler[], [handler...])`](#onflowstart)
+  - [`.onFlowEnd(flowId, handler[], [handler...])`](#onflowstart)
+
+* * *
+
+<a name="new"></a>
+#### `new TelegrafFlow()`
+
+Initialize new TelegrafFlow.
+
+* * *
+
+<a name="registerflow"></a>
+#### `flow.registerFlow(flowId, [startHandlers, handlers, endHandlers])`
+
+Registers flow handler.
+
+| Param | Type | Description |
+| --- | --- | --- |
+| flowId | `string` | Flow id |
+| startHandlers | `GeneratorFunction[]` | Flow start handler |
+| handlers | `GeneratorFunction[]` | Flow handler |
+| endHandlers | `GeneratorFunction[]` | Flow end handler |
+
+* * *
+
+<a name="onflowstart"></a>
+#### `flow.onFlowStart(flowId, handler, [handler...])`
+
+Registers on start handler for provided flow.
+
+| Param | Type | Description |
+| --- | --- | --- |
+| flowId | `string` | Flow id |
+| handler | `GeneratorFunction` | Handler |
+
+* * *
+
+<a name="onflow"></a>
+#### `flow.onFlow(flowId, handler, [handler...])`
+
+Registers flow handler.
+
+| Param | Type | Description |
+| --- | --- | --- |
+| flowId | `string` | Flow id |
+| handler | `GeneratorFunction` | Handler |
+
+* * *
+
+<a name="onflowend"></a>
+#### `flow.onFlowEnd(flowId, handler, [handler...])`
+
+Registers on end handler for provided flow.
+
+| Param | Type | Description |
+| --- | --- | --- |
+| flowId | `string` | Flow id |
+| handler | `GeneratorFunction` | Handler |
+
+* * *
+
+## User context
+
+Telegraf user context props and functions:
+
+```js
+recast.onXXX(function * (){
+  this.flow.start(id, [state, silent])  // Start flow 
+  this.flow.stop([silent])              // Stop current flow  
+});
 ```
 
 ## License
