@@ -18,7 +18,8 @@ flow.registerFlow('deadbeef',
   function * () {
     if (this.message && this.message.text && this.message.text.toLowerCase() === 'hi') {
       yield this.reply('Buy')
-      return this.flow.stop()
+      yield this.flow.stop()
+      return
     }
     yield this.flow.start('deadbeef', {message: 'Really?'})
   }
