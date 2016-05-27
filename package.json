@@ -1,6 +1,6 @@
 {
   "name": "telegraf-flow",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Telegraf flow engine",
   "main": "lib/flow.js",
   "repository": {
