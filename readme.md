@@ -35,7 +35,8 @@ flow.registerFlow('deadbeef',
   function * () {
     if (this.message && this.message.text && this.message.text.toLowerCase() === 'hi') {
       yield this.reply('Buy')
-      return this.stopFlow()
+      yield this.flow.stop()
+      return
     }
     yield this.flow.start('deadbeef', {message: 'Really?'})
   }
@@ -50,7 +51,6 @@ app.startPolling()
 ```
 
 ## API
-
 
 - [`new TelegrafFlow()`](#new)
   - [`.registerFlow(flowId, [startHandlers, handlers, endHandlers])`](#registerflow)
