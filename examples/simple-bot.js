@@ -10,6 +10,11 @@ telegraf.use(Telegraf.memorySession())
 // Add middleware
 telegraf.use(flow.middleware())
 
+// Default handler
+flow.registerDefaultHandlers(function * () {
+  yield this.reply('Hey!!!!!!!!!')
+})
+
 // Register flow
 flow.registerFlow('deadbeef',
   function * () {
@@ -28,6 +33,11 @@ flow.registerFlow('deadbeef',
 // start flow on command
 telegraf.hears('/flow', function * () {
   yield this.flow.start('deadbeef')
+})
+
+// start flow on command
+telegraf.on('message', function * () {
+  yield this.reply('Hey')
 })
 
 telegraf.startPolling()
