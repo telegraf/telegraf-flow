@@ -14,11 +14,11 @@ $ npm install telegraf-flow
 ## Flow Example
   
 ```js
-var Telegraf = require('telegraf')
-var TelegrafFlow = require('telegraf-flow')
+const Telegraf = require('telegraf')
+const TelegrafFlow = require('telegraf-flow')
 
-var app = new Telegraf(process.env.BOT_TOKEN)
-var flow = new TelegrafFlow()
+const app = new Telegraf(process.env.BOT_TOKEN)
+const flow = new TelegrafFlow()
 
 app.use(Telegraf.memorySession())
 
@@ -122,9 +122,9 @@ Registers on end handler for provided flow.
 Telegraf user context props and functions:
 
 ```js
-recast.onXXX(function * (){
-  this.flow.start(id, [state, silent])  // Start flow 
-  this.flow.stop([silent])              // Stop current flow  
+app.on((ctx) => {
+  ctx.flow.start(id, [state, silent])  // Start flow 
+  ctx.flow.stop([silent])              // Stop current flow  
 });
 ```
 

@@ -1,8 +1,8 @@
-var Telegraf = require('telegraf')
-var Flow = require('../lib/flow')
+const Telegraf = require('telegraf')
+const Flow = require('../lib/flow')
 
-var telegraf = new Telegraf(process.env.BOT_TOKEN)
-var flow = new Flow()
+const telegraf = new Telegraf(process.env.BOT_TOKEN)
+const flow = new Flow()
 
 // For testing only. Session will be lost on app restart
 telegraf.use(Telegraf.memorySession())
@@ -11,33 +11,21 @@ telegraf.use(Telegraf.memorySession())
 telegraf.use(flow.middleware())
 
 // Default handler
-flow.registerDefaultHandlers(function * () {
-  yield this.reply('Hey!!!!!!!!!')
+flow.registerDefaultHandlers((ctx) => {
+  return ctx.flow.start('deadbeef')
 })
 
 // Register flow
 flow.registerFlow('deadbeef',
-  function * () {
-    yield this.reply(this.state.flow.message || 'Hi')
-  },
-  function * () {
-    if (this.message && this.message.text && this.message.text.toLowerCase() === 'hi') {
-      yield this.reply('Buy')
-      yield this.flow.stop()
-      return
+  (ctx) => ctx.reply(ctx.state.flow.message || 'Hi'),
+  (ctx) => {
+    if (ctx.message && ctx.message.text && ctx.message.text.toLowerCase() === 'hi') {
+      ctx.reply('Buy')
+      return ctx.flow.stop()
     }
-    yield this.flow.start('deadbeef', {message: 'Really?'})
-  }
+    return ctx.flow.restart({message: 'Really?'})
+  },
+  (ctx) => ctx.reply('👻')
 )
-
-// start flow on command
-telegraf.hears('/flow', function * () {
-  yield this.flow.start('deadbeef')
-})
-
-// start flow on command
-telegraf.on('message', function * () {
-  yield this.reply('Hey')
-})
 
 telegraf.startPolling()
