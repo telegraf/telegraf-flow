@@ -1,8 +1,8 @@
 {
   "name": "telegraf-flow",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Telegraf flow engine",
-  "main": "lib/flow.js",
+  "main": "lib/telegraf-flow.js",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/telegraf/telegraf-flow.git"
@@ -26,6 +26,7 @@
     "node": ">=6.2.1"
   },
   "files": [
+    "lib/telegraf-flow.js",
     "lib/flow.js"
   ],
   "scripts": {
