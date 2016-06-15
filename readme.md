@@ -17,102 +17,44 @@ $ npm install telegraf-flow
 ```js
 const Telegraf = require('telegraf')
 const TelegrafFlow = require('telegraf-flow')
+const Flow = TelegrafFlow.Flow
 
-const app = new Telegraf(process.env.BOT_TOKEN)
-const flow = new TelegrafFlow()
+const telegraf = new Telegraf(process.env.BOT_TOKEN)
+const telegrafFlow = new TelegrafFlow()
 
-app.use(Telegraf.memorySession())
+// For testing only. Session will be lost on app restart
+telegraf.use(Telegraf.memorySession())
 
-// Add flow middleware
-app.use(flow.middleware())
+// Register middleware
+telegraf.use(telegrafFlow.middleware())
 
-// Register flow
-flow.registerFlow('deadbeef',
-  (ctx) => ctx.reply(ctx.state.flow.message || 'Hi'), // flow start handler
-  (ctx) => {
-    if (ctx.message && ctx.message.text && ctx.message.text.toLowerCase() === 'hi') { 
-      // flow handler
-      ctx.reply('Buy')
-      return ctx.flow.stop()
-    }
-    return ctx.flow.start('deadbeef', {message: 'Really?'})
-  }
-)
+const defaultFlow = new Flow()
 
-// start flow on command
-app.hears('/flow', (ctx) => {
+defaultFlow.on('message', (ctx) => {
   return ctx.flow.start('deadbeef')
 })
 
-app.startPolling()
+// Set default flow
+telegrafFlow.setDefault(defaultFlow)
+
+// Example flow
+const dummyFlow = new Flow('deadbeef')
+
+dummyFlow.onStart((ctx) => ctx.reply(ctx.state.flow.message || 'Hi'))
+
+dummyFlow.on('text', (ctx) => {
+  if (ctx.message.text.toLowerCase() === 'hi') {
+    ctx.flow.stop()
+    return ctx.reply('Buy')
+  }
+  return ctx.flow.restart({message: 'Really?'})
+})
+
+// Register flow
+telegrafFlow.register(dummyFlow)
+
+telegraf.startPolling()
 ```
-
-## API
-
-- [`new TelegrafFlow()`](#new)
-  - [`.registerFlow(flowId, [startHandlers, handlers, endHandlers])`](#registerflow)
-  - [`.onFlowStart(flowId, handler[], [handler...])`](#onflowstart)
-  - [`.onFlow(flowId, handler[], [handler...])`](#onflowstart)
-  - [`.onFlowEnd(flowId, handler[], [handler...])`](#onflowstart)
-
-* * *
-
-<a name="new"></a>
-#### `new TelegrafFlow()`
-
-Initialize new TelegrafFlow.
-
-* * *
-
-<a name="registerflow"></a>
-#### `flow.registerFlow(flowId, [startHandlers, handlers, endHandlers])`
-
-Registers flow handler.
-
-| Param | Type | Description |
-| --- | --- | --- |
-| flowId | `string` | Flow id |
-| startHandlers | `function[]` | Flow start handler |
-| handlers | `function[]` | Flow handler |
-| endHandlers | `function[]` | Flow end handler |
-
-* * *
-
-<a name="onflowstart"></a>
-#### `flow.onFlowStart(flowId, handler, [handler...])`
-
-Registers on start handler for provided flow.
-
-| Param | Type | Description |
-| --- | --- | --- |
-| flowId | `string` | Flow id |
-| handler | `function` | Handler |
-
-* * *
-
-<a name="onflow"></a>
-#### `flow.onFlow(flowId, handler, [handler...])`
-
-Registers flow handler.
-
-| Param | Type | Description |
-| --- | --- | --- |
-| flowId | `string` | Flow id |
-| handler | `function` | Handler |
-
-* * *
-
-<a name="onflowend"></a>
-#### `flow.onFlowEnd(flowId, handler, [handler...])`
-
-Registers on end handler for provided flow.
-
-| Param | Type | Description |
-| --- | --- | --- |
-| flowId | `string` | Flow id |
-| handler | `function` | Handler |
-
-* * *
 
 ## User context
 
@@ -120,8 +62,9 @@ Telegraf user context props and functions:
 
 ```js
 app.on((ctx) => {
-  ctx.flow.start(id, [state, silent]) => Promise  // Start flow 
-  ctx.flow.stop([silent]) => Promise             // Stop current flow  
+  ctx.state.flow                      // Flow state 
+  ctx.flow.start(id, [state, silent]) // Start flow 
+  ctx.flow.stop([silent])             // Stop current flow  
 });
 ```
 
