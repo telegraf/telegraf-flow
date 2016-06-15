@@ -1,7 +1,8 @@
-# Telegraf flow engine
-
 [![Build Status](https://img.shields.io/travis/telegraf/telegraf-flow.svg?branch=master&style=flat-square)](https://travis-ci.org/telegraf/telegraf-flow)
 [![NPM Version](https://img.shields.io/npm/v/telegraf-flow.svg?style=flat-square)](https://www.npmjs.com/package/telegraf-flow)
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](http://standardjs.com/)
+
+# Telegraf flow engine
 
 Flow engine for [Telegraf (Telegram bot framework)](https://github.com/telegraf/telegraf).
 
@@ -27,24 +28,20 @@ app.use(flow.middleware())
 
 // Register flow
 flow.registerFlow('deadbeef',
-  // flow start handler
-  function * () {
-    yield this.reply(this.state.flow.message || 'Hi')
-  },
-  // flow handler
-  function * () {
-    if (this.message && this.message.text && this.message.text.toLowerCase() === 'hi') {
-      yield this.reply('Buy')
-      yield this.flow.stop()
-      return
+  (ctx) => ctx.reply(ctx.state.flow.message || 'Hi'), // flow start handler
+  (ctx) => {
+    if (ctx.message && ctx.message.text && ctx.message.text.toLowerCase() === 'hi') { 
+      // flow handler
+      ctx.reply('Buy')
+      return ctx.flow.stop()
     }
-    yield this.flow.start('deadbeef', {message: 'Really?'})
+    return ctx.flow.start('deadbeef', {message: 'Really?'})
   }
 )
 
 // start flow on command
-app.hears('/flow', function * () {
-  yield this.flow.start('deadbeef')
+app.hears('/flow', (ctx) => {
+  return ctx.flow.start('deadbeef')
 })
 
 app.startPolling()
@@ -75,9 +72,9 @@ Registers flow handler.
 | Param | Type | Description |
 | --- | --- | --- |
 | flowId | `string` | Flow id |
-| startHandlers | `GeneratorFunction[]` | Flow start handler |
-| handlers | `GeneratorFunction[]` | Flow handler |
-| endHandlers | `GeneratorFunction[]` | Flow end handler |
+| startHandlers | `function[]` | Flow start handler |
+| handlers | `function[]` | Flow handler |
+| endHandlers | `function[]` | Flow end handler |
 
 * * *
 
@@ -89,7 +86,7 @@ Registers on start handler for provided flow.
 | Param | Type | Description |
 | --- | --- | --- |
 | flowId | `string` | Flow id |
-| handler | `GeneratorFunction` | Handler |
+| handler | `function` | Handler |
 
 * * *
 
@@ -101,7 +98,7 @@ Registers flow handler.
 | Param | Type | Description |
 | --- | --- | --- |
 | flowId | `string` | Flow id |
-| handler | `GeneratorFunction` | Handler |
+| handler | `function` | Handler |
 
 * * *
 
@@ -113,7 +110,7 @@ Registers on end handler for provided flow.
 | Param | Type | Description |
 | --- | --- | --- |
 | flowId | `string` | Flow id |
-| handler | `GeneratorFunction` | Handler |
+| handler | `function` | Handler |
 
 * * *
 
@@ -123,8 +120,8 @@ Telegraf user context props and functions:
 
 ```js
 app.on((ctx) => {
-  ctx.flow.start(id, [state, silent])  // Start flow 
-  ctx.flow.stop([silent])              // Stop current flow  
+  ctx.flow.start(id, [state, silent]) => Promise  // Start flow 
+  ctx.flow.stop([silent]) => Promise             // Stop current flow  
 });
 ```
 
