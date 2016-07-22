@@ -4,7 +4,7 @@
 
 # Telegraf Flow engine
 
-[Telegraf](https://github.com/telegraf/telegraf) middleware for creating statefull chatbots  
+[Telegraf](https://github.com/telegraf/telegraf) middleware for creating stateful chatbots  
 
 ## Installation
 
