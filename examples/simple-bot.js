@@ -36,4 +36,4 @@ dummyFlow.on('text', (ctx) => {
 // Register flow
 telegrafFlow.register(dummyFlow)
 
-telegraf.startPolling()
+telegraf.startPolling(30)

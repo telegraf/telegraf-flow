@@ -2,9 +2,9 @@
 [![NPM Version](https://img.shields.io/npm/v/telegraf-flow.svg?style=flat-square)](https://www.npmjs.com/package/telegraf-flow)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](http://standardjs.com/)
 
-# Telegraf flow engine
+# Telegraf Flow engine
 
-Flow engine for [Telegraf (Telegram bot framework)](https://github.com/telegraf/telegraf).
+[Telegraf](https://github.com/telegraf/telegraf) middleware for creating statefull chatbots  
 
 ## Installation
 
@@ -30,18 +30,16 @@ telegraf.use(telegrafFlow.middleware())
 
 const defaultFlow = new Flow()
 
-defaultFlow.on('message', (ctx) => {
-  return ctx.flow.start('deadbeef')
-})
+defaultFlow.command('/help', (ctx) => ctx.reply('Help message'))
+defaultFlow.command('/start', (ctx) => ctx.flow.start('deadbeef'))
+defaultFlow.on('message', (ctx) => ctx.reply('💥'))
 
 // Set default flow
 telegrafFlow.setDefault(defaultFlow)
 
 // Example flow
 const dummyFlow = new Flow('deadbeef')
-
 dummyFlow.onStart((ctx) => ctx.reply(ctx.state.flow.message || 'Hi'))
-
 dummyFlow.on('text', (ctx) => {
   if (ctx.message.text.toLowerCase() === 'hi') {
     ctx.flow.stop()
@@ -56,15 +54,17 @@ telegrafFlow.register(dummyFlow)
 telegraf.startPolling()
 ```
 
-## User context
+## Telegraf context
 
 Telegraf user context props and functions:
 
 ```js
 app.on((ctx) => {
-  ctx.state.flow                      // Flow state 
-  ctx.flow.start(id, [state, silent]) // Start flow 
-  ctx.flow.stop([silent])             // Stop current flow  
+  ctx.state.flow                      // Flow state
+  ctx.flow.start(id, [state, silent]) // Start flow
+  ctx.flow.canGoBack()                // Can go back
+  ctx.flow.back([state, silent])      // Go back
+  ctx.flow.stop()                     // Stop flow engine
 });
 ```
 
