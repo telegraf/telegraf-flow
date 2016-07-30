@@ -4,7 +4,9 @@
 
 # Telegraf Flow engine
 
-[Telegraf](https://github.com/telegraf/telegraf) middleware for creating statefull chatbots  
+[Telegraf](https://github.com/telegraf/telegraf) middleware for creating stateful chatbots  
+
+Based on [Kwiz library](https://github.com/telegraf/kwiz)
 
 ## Installation
 
@@ -32,6 +34,7 @@ const defaultFlow = new Flow()
 
 defaultFlow.command('/help', (ctx) => ctx.reply('Help message'))
 defaultFlow.command('/start', (ctx) => ctx.flow.start('deadbeef'))
+defaultFlow.onResult((ctx) => ctx.reply(JSON.stringify(ctx.flow.result, null, 2)))
 defaultFlow.on('message', (ctx) => ctx.reply('💥'))
 
 // Set default flow
@@ -42,8 +45,8 @@ const dummyFlow = new Flow('deadbeef')
 dummyFlow.onStart((ctx) => ctx.reply(ctx.state.flow.message || 'Hi'))
 dummyFlow.on('text', (ctx) => {
   if (ctx.message.text.toLowerCase() === 'hi') {
-    ctx.flow.stop()
-    return ctx.reply('Buy')
+    ctx.reply('Buy')
+    return ctx.flow.complete({foo: 'bar'})
   }
   return ctx.flow.restart({message: 'Really?'})
 })
@@ -60,11 +63,14 @@ Telegraf user context props and functions:
 
 ```js
 app.on((ctx) => {
-  ctx.state.flow                      // Flow state
   ctx.flow.start(id, [state, silent]) // Start flow
+  ctx.flow.state                      // Managed flow state
+  ctx.flow.result                     // Result from child flow(see flow.onResult)
   ctx.flow.canGoBack()                // Can go back
-  ctx.flow.back([state, silent])      // Go back
-  ctx.flow.stop()                     // Stop flow engine
+  ctx.flow.complete([state, silent])  // Return some value to parent flow
+  ctx.flow.back([silent])            // Go back
+  ctx.flow.stop()                     // Stop current flow 
+  ctx.flow.reset()                    // Reset flow engine
 });
 ```
 
