@@ -2,11 +2,9 @@
 [![NPM Version](https://img.shields.io/npm/v/telegraf-flow.svg?style=flat-square)](https://www.npmjs.com/package/telegraf-flow)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](http://standardjs.com/)
 
-# Telegraf Flow engine
+# Telegraf chat flow
 
 [Telegraf](https://github.com/telegraf/telegraf) middleware for creating stateful chatbots  
-
-Based on [Kwiz library](https://github.com/telegraf/kwiz)
 
 ## Installation
 
@@ -64,7 +62,7 @@ Telegraf user context props and functions:
 ```js
 app.on((ctx) => {
   ctx.flow.start(id, [state, silent]) // Start flow
-  ctx.flow.state                      // Managed flow state
+  ctx.flow.state                      // Flow state
   ctx.flow.result                     // Result from child flow(see flow.onResult)
   ctx.flow.canGoBack()                // Can go back
   ctx.flow.complete([state, silent])  // Return some value to parent flow
