@@ -30,7 +30,7 @@ telegraf.use(Telegraf.memorySession())
 // Register middleware
 telegraf.use(telegrafFlow.middleware())
 
-const defaultFlow = new Flow()
+const defaultFlow = new Flow('default-flow')
 
 defaultFlow.command('/help', (ctx) => ctx.reply('Help message'))
 defaultFlow.command('/start', (ctx) => ctx.flow.start('deadbeef'))
@@ -68,7 +68,7 @@ app.on((ctx) => {
   ctx.flow.result                     // Result from child flow(see flow.onResult)
   ctx.flow.canGoBack()                // Can go back
   ctx.flow.complete([state, silent])  // Return some value to parent flow
-  ctx.flow.back([silent])            // Go back
+  ctx.flow.back([silent])             // Go back
   ctx.flow.stop()                     // Stop current flow 
   ctx.flow.reset()                    // Reset flow engine
 });

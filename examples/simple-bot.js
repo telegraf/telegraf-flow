@@ -56,7 +56,7 @@ telegraf.use(Telegraf.memorySession())
 telegraf.use(telegrafFlow.middleware())
 
 // Set default flow
-const defaultFlow = new Flow()
+const defaultFlow = new Flow('default-flow')
 defaultFlow.command('/start', (ctx) => ctx.flow.start('deadbeef'))
 defaultFlow.command('/quiz', (ctx) => ctx.flow.start('beverage'))
 defaultFlow.onResult((ctx) => ctx.reply(JSON.stringify(ctx.flow.result.answers, null, 2)))
