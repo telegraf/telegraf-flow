@@ -19,14 +19,11 @@ const Telegraf = require('telegraf')
 const TelegrafFlow = require('telegraf-flow')
 const Flow = TelegrafFlow.Flow
 
-const telegraf = new Telegraf(process.env.BOT_TOKEN)
-const telegrafFlow = new TelegrafFlow()
+const flowEngine = new TelegrafFlow()
+const app = new Telegraf(process.env.BOT_TOKEN)
 
-// For testing only. Session will be lost on app restart
-telegraf.use(Telegraf.memorySession())
-
-// Register middleware
-telegraf.use(telegrafFlow.middleware())
+app.use(Telegraf.memorySession())
+app.use(flowEngine.middleware())
 
 const defaultFlow = new Flow('default-flow')
 
@@ -35,10 +32,6 @@ defaultFlow.command('/start', (ctx) => ctx.flow.start('deadbeef'))
 defaultFlow.onResult((ctx) => ctx.reply(JSON.stringify(ctx.flow.result, null, 2)))
 defaultFlow.on('message', (ctx) => ctx.reply('💥'))
 
-// Set default flow
-telegrafFlow.setDefault(defaultFlow)
-
-// Example flow
 const dummyFlow = new Flow('deadbeef')
 dummyFlow.onStart((ctx) => ctx.reply(ctx.flow.state.message || 'Hi'))
 dummyFlow.on('text', (ctx) => {
@@ -49,10 +42,11 @@ dummyFlow.on('text', (ctx) => {
   return ctx.flow.restart({message: 'Really?'})
 })
 
-// Register flow
-telegrafFlow.register(dummyFlow)
 
-telegraf.startPolling()
+flowEngine.setDefault(defaultFlow)
+flowEngine.register(dummyFlow)
+
+app.startPolling()
 ```
 
 ## Telegraf context
