@@ -58,14 +58,13 @@ telegraf.use(telegrafFlow.middleware())
 // Set default flow
 const defaultFlow = new Flow('default-flow')
 defaultFlow.command('/start', (ctx) => ctx.flow.start('deadbeef'))
-defaultFlow.command('/quiz', (ctx) => ctx.flow.start('beverage'))
+defaultFlow.command('/quiz', (ctx) => ctx.flow.startForResult('beverage'))
 defaultFlow.onResult((ctx) => ctx.reply(JSON.stringify(ctx.flow.result.answers, null, 2)))
 telegrafFlow.setDefault(defaultFlow)
 
 // Example flow
 const dummyFlow = new Flow('deadbeef')
 dummyFlow.onStart((ctx) => ctx.reply(ctx.flow.state.message || 'Hi'))
-dummyFlow.onResult((ctx) => ctx.reply(JSON.stringify(ctx.flow.result.answers, null, 2)))
 dummyFlow.on('text', (ctx) => {
   if (ctx.message.text.toLowerCase() === 'hi') {
     ctx.reply('Buy')

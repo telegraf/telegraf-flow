@@ -40,7 +40,7 @@ telegrafFlow.setDefault(defaultFlow)
 
 // Example flow
 const dummyFlow = new Flow('deadbeef')
-dummyFlow.onStart((ctx) => ctx.reply(ctx.state.flow.message || 'Hi'))
+dummyFlow.onStart((ctx) => ctx.reply(ctx.flow.state.message || 'Hi'))
 dummyFlow.on('text', (ctx) => {
   if (ctx.message.text.toLowerCase() === 'hi') {
     ctx.reply('Buy')
@@ -61,14 +61,15 @@ Telegraf user context props and functions:
 
 ```js
 app.on((ctx) => {
-  ctx.flow.start(id, [state, silent]) // Start flow
-  ctx.flow.state                      // Flow state
-  ctx.flow.result                     // Result from child flow(see flow.onResult)
-  ctx.flow.canGoBack()                // Can go back
-  ctx.flow.complete([state, silent])  // Return some value to parent flow
-  ctx.flow.back([silent])             // Go back
-  ctx.flow.stop()                     // Stop current flow 
-  ctx.flow.reset()                    // Reset flow engine
+  ctx.flow.start(id, [state, silent])           // Start flow
+  ctx.flow.startForResult(id, [state, silent])  // Start flow for result
+  ctx.flow.state                                // Flow state
+  ctx.flow.result                               // Result from child flow(see flow.onResult)
+  ctx.flow.canGoBack()                          // Can go back
+  ctx.flow.complete([state, silent])            // Return some value to parent flow(see flow.startForResult)
+  ctx.flow.back([silent])                       // Go back
+  ctx.flow.stop()                               // Stop current flow 
+  ctx.flow.reset()                              // Reset flow engine
 });
 ```
 
