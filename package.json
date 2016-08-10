@@ -34,7 +34,7 @@
     "lib/flows/quiz.js"
   ],
   "scripts": {
-    "test": "mocha test --require should"
+    "test": "eslint . && mocha test --require should"
   },
   "dependencies": {
     "debug": "^2.2.0",

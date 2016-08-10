@@ -43,17 +43,90 @@ app.startPolling()
 
 [Other examples](/examples)
 
-## Telegraf context
+## API
+
+### Flow 
+- [`new Flow(id)`](#new-flow)
+ - [`.use(middleware)`](#use)
+ - [`.on(updateTypes, middleware, [middleware...])`](#on)
+ - [`.hears(triggers, middleware, [middleware...])`](#hears)
+ - [`.command(commands, middleware, [middleware...])`](#command)
+ - [`.action(triggers, middleware, [middleware...])`](#action)
+
+ <a name="new-flow"></a>
+#### `new Flow(id)`
+
+Initialize new Flow.
+
+| Param | Type | Description |
+| --- | --- | --- |
+| id | `string` | Flow id |
+
+* * *
+
+<a name="use"></a>
+#### `flow.use(middleware)`
+
+Registers a middleware.
+
+| Param | Type | Description |
+| --- | --- | --- |
+| middleware | `function` | Middleware function |
+
+* * *
+
+<a name="on"></a>
+#### `flow.on(updateTypes, middleware, [middleware...])`
+
+Registers middleware for provided [update type](#update-types).
+
+| Param | Type | Description |
+| --- | --- | --- |
+| updateTypes | `string`\|`string[]` | [update type](#update-types) |
+| middleware | `function` | Middleware |
+
+* * *
+
+<a name="hears"></a>
+#### `flow.hears(triggers, middleware, [middleware...])`
+
+Registers middleware for handling `text` messages with regular expressions.
+
+| Param | Type | Description |
+| --- | --- | --- |
+| triggers | `string[]`\|`RegEx[]` | Triggers |
+| middleware | `function` | Middleware |
+
+* * *
+
+<a name="command"></a>
+#### `flow.command(commands, middleware, [middleware...])`
+
+Shortcut for [`hears`](#hears)
+
+* * *
+
+<a name="action"></a>
+#### `flow.action(triggers, middleware, [middleware...])`
+
+Registers middleware for handling `callback_data` actions with regular expressions.
+
+| Param | Type | Description |
+| --- | --- | --- |
+| triggers | `string[]`\|`RegEx[]` | Triggers |
+| middleware | `function` | Middleware |
+
+### Telegraf context
 
 Telegraf user context props and functions:
 
 ```js
 app.on((ctx) => {
-  ctx.flow.start(id, [state, silent]) // Start flow
   ctx.flow.state                      // Flow state
   ctx.flow.result                     // Result from child flow(see flow.onResult)
-  ctx.flow.canGoBack()                // Can go back
+  ctx.flow.start(id, [state, silent]) // Start flow
   ctx.flow.complete([state, silent])  // Return some value to parent flow(see flow.startForResult)
+  ctx.flow.canGoBack()                // Can go back
   ctx.flow.back([silent])             // Go back
   ctx.flow.stop()                     // Stop current flow 
   ctx.flow.clearHistory()             // Clear flow history
