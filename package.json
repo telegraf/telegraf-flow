@@ -1,6 +1,6 @@
 {
   "name": "telegraf-flow",
-  "version": "4.2.0",
+  "version": "5.0.0",
   "description": "Telegraf middleware for creating stateful chatbots.",
   "main": "lib/telegraf-flow.js",
   "repository": {
@@ -30,7 +30,7 @@
   "files": [
     "lib/telegraf-flow.js",
     "lib/context.js",
-    "lib/flows/default.js",
+    "lib/flows/generic.js",
     "lib/flows/quiz.js"
   ],
   "scripts": {
@@ -41,7 +41,7 @@
     "kwiz": "^2.0.0"
   },
   "peerDependencies": {
-    "telegraf": "^2.6.0"
+    "telegraf": "^2.6.2"
   },
   "devDependencies": {
     "eslint": "^3.1.1",
@@ -51,6 +51,6 @@
     "eslint-plugin-standard": "^2.0.0",
     "mocha": "^3.0.0",
     "should": "^10.0.0",
-    "telegraf": "^2.6.0"
+    "telegraf": "^2.6.2"
   }
 }
