@@ -17,37 +17,31 @@ $ npm install telegraf-flow
 ```js
 const Telegraf = require('telegraf')
 const TelegrafFlow = require('telegraf-flow')
-const Flow = TelegrafFlow.Flow
+const { Flow, memorySession} = TelegrafFlow
 
-const flowEngine = new TelegrafFlow()
 const app = new Telegraf(process.env.BOT_TOKEN)
+const flowEngine = new TelegrafFlow()
 
-app.use(Telegraf.memorySession())
+app.use(memorySession())
 app.use(flowEngine.middleware())
 
-const defaultFlow = new Flow('default-flow')
-
-defaultFlow.command('/help', (ctx) => ctx.reply('Help message'))
-defaultFlow.command('/start', (ctx) => ctx.flow.start('deadbeef'))
-defaultFlow.onResult((ctx) => ctx.reply(JSON.stringify(ctx.flow.result, null, 2)))
-defaultFlow.on('message', (ctx) => ctx.reply('💥'))
-
-const dummyFlow = new Flow('deadbeef')
-dummyFlow.onStart((ctx) => ctx.reply(ctx.flow.state.message || 'Hi'))
-dummyFlow.on('text', (ctx) => {
-  if (ctx.message.text.toLowerCase() === 'hi') {
-    ctx.reply('Buy')
-    return ctx.flow.complete({foo: 'bar'})
+const sampleFlow = new Flow('math')
+sampleFlow.onStart((ctx) => ctx.reply(ctx.flow.state.message || '1 + √i=...'))
+sampleFlow.on('text', (ctx) => {
+  if (ctx.message.text.toLowerCase() === '0') {
+    ctx.reply('👍')
+    return ctx.flow.complete()
   }
-  return ctx.flow.restart({message: 'Really?'})
+  ctx.flow.state.message = '9-3*3=...'
+  return ctx.flow.restart()
 })
 
-
-flowEngine.setDefault(defaultFlow)
-flowEngine.register(dummyFlow)
+flowEngine.setDefault(sampleFlow)
 
 app.startPolling()
 ```
+
+[Other examples](/examples)
 
 ## Telegraf context
 
@@ -55,15 +49,15 @@ Telegraf user context props and functions:
 
 ```js
 app.on((ctx) => {
-  ctx.flow.start(id, [state, silent])           // Start flow
-  ctx.flow.startForResult(id, [state, silent])  // Start flow for result
-  ctx.flow.state                                // Flow state
-  ctx.flow.result                               // Result from child flow(see flow.onResult)
-  ctx.flow.canGoBack()                          // Can go back
-  ctx.flow.complete([state, silent])            // Return some value to parent flow(see flow.startForResult)
-  ctx.flow.back([silent])                       // Go back
-  ctx.flow.stop()                               // Stop current flow 
-  ctx.flow.reset()                              // Reset flow engine
+  ctx.flow.start(id, [state, silent]) // Start flow
+  ctx.flow.state                      // Flow state
+  ctx.flow.result                     // Result from child flow(see flow.onResult)
+  ctx.flow.canGoBack()                // Can go back
+  ctx.flow.complete([state, silent])  // Return some value to parent flow(see flow.startForResult)
+  ctx.flow.back([silent])             // Go back
+  ctx.flow.stop()                     // Stop current flow 
+  ctx.flow.clearHistory()             // Clear flow history
+  ctx.flow.reset()                    // Reset flow engine
 });
 ```
 
