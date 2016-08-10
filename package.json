@@ -1,6 +1,6 @@
 {
   "name": "telegraf-flow",
-  "version": "4.2.0",
+  "version": "5.0.0",
   "description": "Telegraf middleware for creating stateful chatbots.",
   "main": "lib/telegraf-flow.js",
   "repository": {
