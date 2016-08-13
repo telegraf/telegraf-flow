@@ -123,6 +123,7 @@ Telegraf user context props and functions:
 ```js
 app.on((ctx) => {
   ctx.flow.state                      // Flow state
+  ctx.flow.flash                      // Flash message
   ctx.flow.result                     // Result from child flow(see flow.onResult)
   ctx.flow.start(id, [state, silent]) // Start flow
   ctx.flow.complete([state, silent])  // Return some value to parent flow(see flow.startForResult)
