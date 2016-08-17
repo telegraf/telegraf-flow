@@ -1,5 +1,5 @@
 const Telegraf = require('telegraf')
-const TelegrafFlow = require('../lib/telegraf-flow')
+const TelegrafFlow = require('../')
 const { Flow } = TelegrafFlow
 
 const app = new Telegraf(process.env.BOT_TOKEN)

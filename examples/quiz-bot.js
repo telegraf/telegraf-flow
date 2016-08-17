@@ -1,5 +1,5 @@
 const Telegraf = require('telegraf')
-const TelegrafFlow = require('../lib/telegraf-flow')
+const TelegrafFlow = require('../')
 const { Flow, QuizFlow } = TelegrafFlow
 
 // More info: https://github.com/telegraf/kwiz

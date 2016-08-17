@@ -53,7 +53,7 @@ app.startPolling()
  - [`.command(commands, middleware, [middleware...])`](#command)
  - [`.action(triggers, middleware, [middleware...])`](#action)
 
- <a name="new-flow"></a>
+<a name="new-flow"></a>
 #### `new Flow(id)`
 
 Initialize new Flow.
