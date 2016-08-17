@@ -1,8 +1,8 @@
 {
   "name": "telegraf-flow",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "description": "Telegraf middleware for creating stateful chatbots.",
-  "main": "lib/telegraf-flow.js",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/telegraf/telegraf-flow.git"
@@ -14,6 +14,7 @@
     "telegraf",
     "bot framework",
     "quiz",
+    "dialog",
     "flow",
     "FSM",
     "middleware"
@@ -28,20 +29,22 @@
     "node": ">=6.2.1"
   },
   "files": [
+    "index.js",
     "lib/telegraf-flow.js",
     "lib/context.js",
     "lib/flows/generic.js",
-    "lib/flows/quiz.js"
+    "lib/flows/quiz.js",
+    "lib/flows/wizard.js"
   ],
   "scripts": {
-    "test": "mocha test --require should"
+    "test": "eslint . && mocha test --require should"
   },
   "dependencies": {
     "debug": "^2.2.0",
-    "kwiz": "^2.0.0"
+    "kwiz": "^3.0.0"
   },
   "peerDependencies": {
-    "telegraf": "^2.6.2"
+    "telegraf": "^2.7.0"
   },
   "devDependencies": {
     "eslint": "^3.1.1",
@@ -50,7 +53,7 @@
     "eslint-plugin-promise": "^2.0.0",
     "eslint-plugin-standard": "^2.0.0",
     "mocha": "^3.0.0",
-    "should": "^10.0.0",
-    "telegraf": "^2.6.2"
+    "should": "^11.1.0",
+    "telegraf": "^2.7.0"
   }
 }
