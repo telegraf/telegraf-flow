@@ -1,7 +1,7 @@
 {
   "name": "telegraf-flow",
-  "version": "5.1.0",
-  "description": "Telegraf middleware for creating stateful chatbots.",
+  "version": "6.0.0",
+  "description": "Fully extensible conversational flow for Telegram Bots",
   "main": "index.js",
   "repository": {
     "type": "git",

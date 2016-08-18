@@ -2,9 +2,9 @@
 [![NPM Version](https://img.shields.io/npm/v/telegraf-flow.svg?style=flat-square)](https://www.npmjs.com/package/telegraf-flow)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square)](http://standardjs.com/)
 
-# Telegraf chat flow
+# Telegraf flow
 
-[Telegraf](https://github.com/telegraf/telegraf) middleware for creating stateful chatbots  
+Fully extensible conversational flow for [Telegram Bots](https://github.com/telegraf/telegraf)
 
 ## Installation
 
