@@ -16,13 +16,13 @@ flowEngine.setDefault(sampleFlow)
 
 // Example flow
 const greeterFlow = new Flow('greeter')
-greeterFlow.onStart((ctx) => ctx.reply(ctx.flow.state.message || 'Hi'))
+greeterFlow.onStart((ctx) => ctx.reply(ctx.state.message || 'Hi'))
 greeterFlow.on('text', (ctx) => {
   if (ctx.message.text.toLowerCase() === 'hi') {
     ctx.reply('Buy')
     return ctx.flow.complete()
   }
-  ctx.flow.state.message = 'Hello'
+  ctx.state.message = 'Hello'
   return ctx.flow.restart()
 })
 

@@ -5,7 +5,7 @@ const { Flow, WizardFlow } = TelegrafFlow
 const app = new Telegraf(process.env.BOT_TOKEN)
 const flowEngine = new TelegrafFlow()
 
-const wizard = new WizardFlow('sample-wizard',
+const simpleWizardFlow = new WizardFlow('super-wizard',
   (ctx) => {
     ctx.reply('Step 1')
     ctx.flow.wizard.next()
@@ -28,11 +28,11 @@ const wizard = new WizardFlow('sample-wizard',
   }
 )
 
-flowEngine.register(wizard)
+flowEngine.register(simpleWizardFlow)
 
 const sampleFlow = new Flow('default-flow')
-sampleFlow.command('/wizard', (ctx) => ctx.flow.start('sample-wizard'))
-sampleFlow.onResultFrom('sample-wizard', (ctx) => ctx.reply('Wizard result: ' + JSON.stringify(ctx.flow.result, null, 2)))
+sampleFlow.command('/wizard', (ctx) => ctx.flow.start('super-wizard'))
+sampleFlow.onResultFrom('super-wizard', (ctx) => ctx.reply('Wizard result: ' + JSON.stringify(ctx.flow.result, null, 2)))
 flowEngine.setDefault(sampleFlow)
 
 app.use(Telegraf.memorySession())
