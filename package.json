@@ -1,6 +1,6 @@
 {
   "name": "telegraf-flow",
-  "version": "6.0.0",
+  "version": "6.1.0",
   "description": "Fully extensible conversational flow for Telegram Bots",
   "main": "index.js",
   "repository": {
