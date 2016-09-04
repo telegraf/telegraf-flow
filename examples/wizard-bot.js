@@ -1,11 +1,11 @@
 const Telegraf = require('telegraf')
 const TelegrafFlow = require('../')
-const { Flow, WizardFlow } = TelegrafFlow
+const { Flow, WizardScene } = TelegrafFlow
 
 const app = new Telegraf(process.env.BOT_TOKEN)
 const flowEngine = new TelegrafFlow()
 
-const simpleWizardFlow = new WizardFlow('super-wizard',
+const superWizard = new WizardScene('super-wizard',
   (ctx) => {
     ctx.reply('Step 1')
     ctx.flow.wizard.next()
@@ -28,14 +28,14 @@ const simpleWizardFlow = new WizardFlow('super-wizard',
   }
 )
 
-flowEngine.register(simpleWizardFlow)
+flowEngine.register(superWizard)
 
-const sampleFlow = new Flow('default-flow')
-sampleFlow.command('/wizard', (ctx) => ctx.flow.start('super-wizard'))
-sampleFlow.onResultFrom('super-wizard', (ctx) => ctx.reply('Wizard result: ' + JSON.stringify(ctx.flow.result, null, 2)))
-flowEngine.setDefault(sampleFlow)
+const defaultScene = new Flow('default')
+defaultScene.command('wizard', (ctx) => ctx.flow.start('super-wizard'))
+defaultScene.onResultFrom('super-wizard', (ctx) => ctx.reply('Wizard result: ' + JSON.stringify(ctx.flow.result, null, 2)))
+flowEngine.setDefault(defaultScene)
 
 app.use(Telegraf.memorySession())
 app.use(flowEngine.middleware())
 
-app.startPolling(30)
+app.startPolling()

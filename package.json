@@ -30,11 +30,12 @@
   },
   "files": [
     "index.js",
-    "lib/telegraf-flow.js",
+    "lib/flow.js",
     "lib/context.js",
-    "lib/flows/generic.js",
-    "lib/flows/quiz.js",
-    "lib/flows/wizard.js"
+    "lib/helpers.js",
+    "lib/scenes/generic.js",
+    "lib/scenes/quiz.js",
+    "lib/scenes/wizard.js"
   ],
   "scripts": {
     "test": "eslint . && ava test"
