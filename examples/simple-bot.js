@@ -1,6 +1,6 @@
 const Telegraf = require('telegraf')
 const TelegrafFlow = require('../')
-const { Flow } = TelegrafFlow
+const { Scene } = TelegrafFlow
 
 const app = new Telegraf(process.env.BOT_TOKEN)
 const flowEngine = new TelegrafFlow()
@@ -8,24 +8,24 @@ const flowEngine = new TelegrafFlow()
 app.use(Telegraf.memorySession())
 app.use(flowEngine.middleware())
 
-// Set default flow
-const sampleFlow = new Flow('default-flow')
-sampleFlow.command('/greet', (ctx) => ctx.flow.start('greeter'))
-sampleFlow.onResultFrom('greeter', (ctx) => ctx.reply('Greeter result: ' + JSON.stringify(ctx.flow.result, null, 2)))
-flowEngine.setDefault(sampleFlow)
+// Set default scene
+const defaultScene = new Scene('default')
+defaultScene.command('greet', (ctx) => ctx.flow.start('greeter'))
+defaultScene.onResultFrom('greeter', (ctx) => ctx.reply('Greeter result: ' + JSON.stringify(ctx.flow.result, null, 2)))
+flowEngine.setDefault(defaultScene)
 
-// Example flow
-const greeterFlow = new Flow('greeter')
-greeterFlow.onStart((ctx) => ctx.reply(ctx.state.message || 'Hi'))
-greeterFlow.on('text', (ctx) => {
+// Example scene
+const greeterScene = new Scene('greeter')
+greeterScene.onStart((ctx) => ctx.reply(ctx.state.message || 'Hi'))
+greeterScene.on('text', (ctx) => {
   if (ctx.message.text.toLowerCase() === 'hi') {
     ctx.reply('Buy')
-    return ctx.flow.complete()
+    return ctx.flow.complete(42)
   }
   ctx.state.message = 'Hello'
   return ctx.flow.restart()
 })
 
-flowEngine.register(greeterFlow)
+flowEngine.register(greeterScene)
 
-app.startPolling(30)
+app.startPolling()
