@@ -56,7 +56,7 @@ app.on((ctx) => {
   ctx.flow.flash                      // Flash message
   ctx.flow.result                     // Result from child scene (see flow.onResult)
   ctx.flow.start(id, [state, silent]) // Start scene
-  ctx.flow.complete([state, silent])  // Return some value to parent scene(see flow.startForResult)
+  ctx.flow.complete([result, silent]) // Return some value to parent scene
   ctx.flow.canGoBack()                // Can go back
   ctx.flow.back([silent])             // Go back
   ctx.flow.stop()                     // Stop current scene 
