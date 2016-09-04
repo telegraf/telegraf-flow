@@ -49,8 +49,7 @@ const beverageQuizDefinition = {
 const app = new Telegraf(process.env.BOT_TOKEN)
 const flowEngine = new TelegrafFlow()
 
-app.use(Telegraf.memorySession())
-app.use(flowEngine.middleware())
+app.use(Telegraf.memorySession(), flowEngine.middleware())
 
 const defaultScene = new Scene('default')
 defaultScene.command('quiz', (ctx) => ctx.flow.start('beverage'))

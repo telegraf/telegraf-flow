@@ -36,6 +36,6 @@ defaultScene.onResultFrom('super-wizard', (ctx) => ctx.reply('Wizard result: ' +
 flowEngine.setDefault(defaultScene)
 
 app.use(Telegraf.memorySession())
-app.use(flowEngine.middleware())
+app.on('text', flowEngine.middleware())
 
 app.startPolling()
