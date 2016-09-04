@@ -1,6 +1,6 @@
 const Telegraf = require('telegraf')
 const TelegrafFlow = require('../')
-const { Flow, QuizScene } = TelegrafFlow
+const { Scene, QuizScene } = TelegrafFlow
 
 // More info: https://github.com/telegraf/kwiz
 const beverageQuizDefinition = {
@@ -52,7 +52,7 @@ const flowEngine = new TelegrafFlow()
 app.use(Telegraf.memorySession())
 app.use(flowEngine.middleware())
 
-const defaultScene = new Flow('default')
+const defaultScene = new Scene('default')
 defaultScene.command('quiz', (ctx) => ctx.flow.start('beverage'))
 defaultScene.onResultFrom('beverage', (ctx) => ctx.reply('Beverage result: ' + JSON.stringify(ctx.flow.result, null, 2)))
 flowEngine.setDefault(defaultScene)

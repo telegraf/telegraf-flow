@@ -45,7 +45,7 @@
     "kwiz": "^3.0.0"
   },
   "peerDependencies": {
-    "telegraf": "^2.7.0"
+    "telegraf": "^2.8.0"
   },
   "devDependencies": {
     "ava": "^0.16.0",
@@ -55,6 +55,6 @@
     "eslint-plugin-promise": "^2.0.0",
     "eslint-plugin-standard": "^2.0.0",
     "should": "^11.1.0",
-    "telegraf": "^2.7.0"
+    "telegraf": "^2.8.0"
   }
 }

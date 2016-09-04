@@ -1,6 +1,6 @@
 const Telegraf = require('telegraf')
 const TelegrafFlow = require('../')
-const { Flow, WizardScene } = TelegrafFlow
+const { Scene, WizardScene } = TelegrafFlow
 
 const app = new Telegraf(process.env.BOT_TOKEN)
 const flowEngine = new TelegrafFlow()
@@ -30,7 +30,7 @@ const superWizard = new WizardScene('super-wizard',
 
 flowEngine.register(superWizard)
 
-const defaultScene = new Flow('default')
+const defaultScene = new Scene('default')
 defaultScene.command('wizard', (ctx) => ctx.flow.start('super-wizard'))
 defaultScene.onResultFrom('super-wizard', (ctx) => ctx.reply('Wizard result: ' + JSON.stringify(ctx.flow.result, null, 2)))
 flowEngine.setDefault(defaultScene)

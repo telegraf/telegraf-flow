@@ -20,7 +20,7 @@ greeterScene.onStart((ctx) => ctx.reply(ctx.state.message || 'Hi'))
 greeterScene.on('text', (ctx) => {
   if (ctx.message.text.toLowerCase() === 'hi') {
     ctx.reply('Buy')
-    return ctx.flow.complete()
+    return ctx.flow.complete(42)
   }
   ctx.state.message = 'Hello'
   return ctx.flow.restart()
