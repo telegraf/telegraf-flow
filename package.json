@@ -1,6 +1,6 @@
 {
   "name": "telegraf-flow",
-  "version": "7.0.0",
+  "version": "7.1.0",
   "description": "Fully extensible conversational flow for Telegram Bots",
   "main": "index.js",
   "repository": {
@@ -45,16 +45,16 @@
     "kwiz": "^3.0.0"
   },
   "peerDependencies": {
-    "telegraf": "^2.8.0"
+    "telegraf": "^2.8.0 || ^3.0.0"
   },
   "devDependencies": {
     "ava": "^0.16.0",
     "eslint": "^3.1.1",
-    "eslint-config-standard": "^5.3.1",
+    "eslint-config-standard": "^6.2.0",
     "eslint-plugin-ava": "^3.0.0",
     "eslint-plugin-promise": "^2.0.0",
     "eslint-plugin-standard": "^2.0.0",
     "should": "^11.1.0",
-    "telegraf": "^2.8.0"
+    "telegraf": "^3.0.0"
   }
 }
