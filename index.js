@@ -1,5 +1,3 @@
 module.exports = require('./lib/flow.js')
-module.exports.Scene = require('./lib/scenes/generic')
-module.exports.QuizScene = require('./lib/scenes/quiz')
-module.exports.WizardScene = require('./lib/scenes/wizard')
-module.exports.ensureState = require('./lib/helpers').ensureState
+module.exports.Scene = require('./lib/generic-scene')
+module.exports.WizardScene = require('./lib/wizard-scene')

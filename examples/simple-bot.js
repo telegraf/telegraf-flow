@@ -8,24 +8,35 @@ const flowEngine = new TelegrafFlow()
 app.use(Telegraf.memorySession())
 app.use(flowEngine.middleware())
 
-// Set default scene
+// Default scene
 const defaultScene = new Scene('default')
-defaultScene.command('greet', (ctx) => ctx.flow.start('greeter'))
-defaultScene.onResultFrom('greeter', (ctx) => ctx.reply('Greeter result: ' + JSON.stringify(ctx.flow.result, null, 2)))
-flowEngine.setDefault(defaultScene)
+defaultScene.command('greeter', (ctx) => ctx.flow.enter('greeter'))
+defaultScene.command('echo', (ctx) => ctx.flow.enter('echo'))
 
-// Example scene
+// Greeter scene
 const greeterScene = new Scene('greeter')
-greeterScene.onStart((ctx) => ctx.reply(ctx.state.message || 'Hi'))
+greeterScene.enter((ctx) => ctx.reply('Hi'))
 greeterScene.on('text', (ctx) => {
   if (ctx.message.text.toLowerCase() === 'hi') {
-    ctx.reply('Buy')
-    return ctx.flow.complete(42)
+    ctx.flow.leave()
+    return ctx.reply('Buy')
   }
-  ctx.state.message = 'Hello'
-  return ctx.flow.restart()
+  return ctx.reply('Hi again')
 })
 
+// Echo scene
+const echoScene = new Scene('echo')
+echoScene.enter((ctx) => ctx.reply('echo scene'))
+echoScene.command('back', (ctx) => {
+  ctx.flow.leave()
+  return ctx.reply('Okay')
+})
+echoScene.on('text', (ctx) => ctx.reply(ctx.message.text))
+echoScene.on('message', (ctx) => ctx.reply('Only text messages please'))
+
+// Scene registration
+flowEngine.setDefault(defaultScene)
 flowEngine.register(greeterScene)
+flowEngine.register(echoScene)
 
 app.startPolling()
