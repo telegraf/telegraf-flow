@@ -19,16 +19,11 @@ const Telegraf = require('telegraf')
 const TelegrafFlow = require('telegraf-flow')
 const { Scene } = TelegrafFlow
 
-const app = new Telegraf(process.env.BOT_TOKEN)
-const flowEngine = new TelegrafFlow()
+const flow = new TelegrafFlow()
 
-app.use(Telegraf.memorySession())
-app.use(flowEngine.middleware())
-
-// Default scene
-const defaultScene = new Scene('default')
-defaultScene.command('greeter', (ctx) => ctx.flow.enter('greeter'))
-defaultScene.command('echo', (ctx) => ctx.flow.enter('echo'))
+// Global commands
+flow.command('greeter', (ctx) => ctx.flow.enter('greeter'))
+flow.command('echo', (ctx) => ctx.flow.enter('echo'))
 
 // Greeter scene
 const greeterScene = new Scene('greeter')
@@ -52,10 +47,12 @@ echoScene.on('text', (ctx) => ctx.reply(ctx.message.text))
 echoScene.on('message', (ctx) => ctx.reply('Only text messages please'))
 
 // Scene registration
-flowEngine.setDefault(defaultScene)
-flowEngine.register(greeterScene)
-flowEngine.register(echoScene)
+flow.register(greeterScene)
+flow.register(echoScene)
 
+const app = new Telegraf(process.env.BOT_TOKEN)
+app.use(Telegraf.memorySession())
+app.use(flow.middleware())
 app.startPolling()
 ```
 
