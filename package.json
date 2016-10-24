@@ -1,6 +1,6 @@
 {
   "name": "telegraf-flow",
-  "version": "7.1.0",
+  "version": "8.0.0",
   "description": "🚥 Control flow middleware for Telegraf",
   "main": "index.js",
   "repository": {
