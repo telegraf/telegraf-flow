@@ -1,7 +1,7 @@
 {
   "name": "telegraf-flow",
-  "version": "7.1.0",
-  "description": "Fully extensible conversational flow for Telegram Bots",
+  "version": "8.0.0",
+  "description": "🚥 Control flow middleware for Telegraf",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -9,14 +9,8 @@
   },
   "keywords": [
     "telegram",
-    "telegram bot",
-    "botapi",
     "telegraf",
-    "bot framework",
-    "quiz",
-    "dialog",
-    "flow",
-    "FSM",
+    "control flow",
     "middleware"
   ],
   "author": "Vitaly Domnikov <dotcypress@gmail.com>",
@@ -30,31 +24,25 @@
   },
   "files": [
     "index.js",
-    "lib/flow.js",
-    "lib/context.js",
-    "lib/helpers.js",
-    "lib/scenes/generic.js",
-    "lib/scenes/quiz.js",
-    "lib/scenes/wizard.js"
+    "lib"
   ],
   "scripts": {
     "test": "eslint . && ava test"
   },
   "dependencies": {
-    "debug": "^2.2.0",
-    "kwiz": "^3.0.0"
+    "debug": "^2.2.0"
   },
   "peerDependencies": {
-    "telegraf": "^2.8.0 || ^3.0.0"
+    "telegraf": "^3.3.0"
   },
   "devDependencies": {
     "ava": "^0.16.0",
     "eslint": "^3.1.1",
     "eslint-config-standard": "^6.2.0",
     "eslint-plugin-ava": "^3.0.0",
-    "eslint-plugin-promise": "^2.0.0",
+    "eslint-plugin-promise": "^3.3.0",
     "eslint-plugin-standard": "^2.0.0",
     "should": "^11.1.0",
-    "telegraf": "^3.0.0"
+    "telegraf": "^3.3.0"
   }
 }

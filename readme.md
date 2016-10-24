@@ -4,7 +4,7 @@
 
 # Telegraf flow
 
-Fully extensible conversational flow for [Telegram Bots](https://github.com/telegraf/telegraf)
+> 🚥 Control flow middleware for [Telegraf](https://github.com/telegraf/telegraf)
 
 ## Installation
 
@@ -17,29 +17,44 @@ $ npm install telegraf-flow
 ```js
 const Telegraf = require('telegraf')
 const TelegrafFlow = require('telegraf-flow')
-const { memorySession} = Telegraf
 const { Scene } = TelegrafFlow
 
 const app = new Telegraf(process.env.BOT_TOKEN)
 const flowEngine = new TelegrafFlow()
 
-app.use(memorySession())
+app.use(Telegraf.memorySession())
 app.use(flowEngine.middleware())
 
-const defaultScene = new Scene('math')
+// Default scene
+const defaultScene = new Scene('default')
+defaultScene.command('greeter', (ctx) => ctx.flow.enter('greeter'))
+defaultScene.command('echo', (ctx) => ctx.flow.enter('echo'))
 
-defaultScene.onStart((ctx) => ctx.reply(ctx.flow.state.message || '1 + √i=...'))
-
-defaultScene.on('text', (ctx) => {
-  if (ctx.message.text.toLowerCase() === '0') {
-    ctx.reply('👍')
-    return ctx.flow.complete()
+// Greeter scene
+const greeterScene = new Scene('greeter')
+greeterScene.enter((ctx) => ctx.reply('Hi'))
+greeterScene.on('text', (ctx) => {
+  if (ctx.message.text.toLowerCase() === 'hi') {
+    ctx.flow.leave()
+    return ctx.reply('Buy')
   }
-  ctx.flow.state.message = '9-3*3=...'
-  return ctx.flow.restart()
+  return ctx.reply('Hi again')
 })
 
+// Echo scene
+const echoScene = new Scene('echo')
+echoScene.enter((ctx) => ctx.reply('echo scene'))
+echoScene.command('back', (ctx) => {
+  ctx.flow.leave()
+  return ctx.reply('Okay')
+})
+echoScene.on('text', (ctx) => ctx.reply(ctx.message.text))
+echoScene.on('message', (ctx) => ctx.reply('Only text messages please'))
+
+// Scene registration
 flowEngine.setDefault(defaultScene)
+flowEngine.register(greeterScene)
+flowEngine.register(echoScene)
 
 app.startPolling()
 ```
@@ -52,16 +67,10 @@ Telegraf user context props and functions:
 
 ```js
 app.on((ctx) => {
-  ctx.flow.state                      // Flow state
-  ctx.flow.flash                      // Flash message
-  ctx.flow.result                     // Result from child scene (see flow.onResult)
-  ctx.flow.start(id, [state, silent]) // Start scene
-  ctx.flow.complete([result, silent]) // Return some value to parent scene
-  ctx.flow.canGoBack()                // Can go back
-  ctx.flow.back([silent])             // Go back
-  ctx.flow.stop()                     // Stop current scene 
-  ctx.flow.clearHistory()             // Clear history
-  ctx.flow.reset()                    // Reset engine
+  ctx.flow.state                                    // Current scene state
+  
+  ctx.flow.enter(sceneId, [defaultState, silent])   // Enter scene
+  ctx.flow.leave()                                  // Leave scene 
 });
 ```
 
