@@ -1,12 +1,10 @@
 const Telegraf = require('telegraf')
 const TelegrafFlow = require('../')
-const { Scene, WizardScene } = TelegrafFlow
+const { WizardScene } = TelegrafFlow
 
-const app = new Telegraf(process.env.BOT_TOKEN)
-const flowEngine = new TelegrafFlow()
+const flow = new TelegrafFlow()
 
-app.use(Telegraf.memorySession())
-app.on('text', flowEngine.middleware())
+flow.command('wizard', (ctx) => ctx.flow.enter('super-wizard'))
 
 const superWizard = new WizardScene('super-wizard',
   (ctx) => {
@@ -27,14 +25,13 @@ const superWizard = new WizardScene('super-wizard',
   },
   (ctx) => {
     ctx.reply('Done')
-    ctx.flow.stop()
+    ctx.flow.leave()
   }
 )
 
-const defaultScene = new Scene('default')
-defaultScene.command('wizard', (ctx) => ctx.flow.start('super-wizard'))
+flow.register(superWizard)
 
-flowEngine.setDefault(defaultScene)
-flowEngine.register(superWizard)
-
+const app = new Telegraf(process.env.BOT_TOKEN)
+app.use(Telegraf.memorySession())
+app.on('text', flow.middleware())
 app.startPolling()

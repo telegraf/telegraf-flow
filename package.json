@@ -33,7 +33,7 @@
     "debug": "^2.2.0"
   },
   "peerDependencies": {
-    "telegraf": "^3.0.0"
+    "telegraf": "^3.3.0"
   },
   "devDependencies": {
     "ava": "^0.16.0",
@@ -43,6 +43,6 @@
     "eslint-plugin-promise": "^2.0.0",
     "eslint-plugin-standard": "^2.0.0",
     "should": "^11.1.0",
-    "telegraf": "^3.0.0"
+    "telegraf": "^3.3.0"
   }
 }
