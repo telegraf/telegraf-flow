@@ -1,13 +1,13 @@
 const Telegraf = require('telegraf')
 const TelegrafFlow = require('../')
-const { Scene } = TelegrafFlow
+const { Scene, enter } = TelegrafFlow
 
 const flow = new TelegrafFlow()
 
 // Global commands
 flow.command('help', (ctx) => ctx.reply('Help message'))
-flow.command('greeter', (ctx) => ctx.flow.enter('greeter'))
-flow.command('echo', (ctx) => ctx.flow.enter('echo'))
+flow.command('greeter', enter('greeter'))
+flow.command('echo', enter('echo'))
 
 // Greeter scene
 const greeterScene = new Scene('greeter')
