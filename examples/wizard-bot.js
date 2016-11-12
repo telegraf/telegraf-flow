@@ -12,7 +12,7 @@ const superWizard = new WizardScene('super-wizard',
     ctx.flow.wizard.next()
   },
   (ctx) => {
-    ctx.reply('Step 2')
+    ctx.reply('Step 2 ')
     ctx.flow.wizard.next()
   },
   (ctx) => {
