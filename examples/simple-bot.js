@@ -31,8 +31,7 @@ echoScene.on('text', (ctx) => ctx.reply(ctx.message.text))
 echoScene.on('message', (ctx) => ctx.reply('Only text messages please'))
 
 // Scene registration
-flow.register(greeterScene)
-flow.register(echoScene)
+flow.register(greeterScene, echoScene)
 
 const app = new Telegraf(process.env.BOT_TOKEN)
 app.use(Telegraf.memorySession())
