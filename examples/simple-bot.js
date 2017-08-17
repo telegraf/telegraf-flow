@@ -1,6 +1,6 @@
 const Telegraf = require('telegraf')
 const TelegrafFlow = require('../')
-const { Scene, enter } = TelegrafFlow
+const { Scene, enter, leave } = TelegrafFlow
 
 const flow = new TelegrafFlow()
 
@@ -12,27 +12,19 @@ flow.command('echo', enter('echo'))
 // Greeter scene
 const greeterScene = new Scene('greeter')
 greeterScene.enter((ctx) => ctx.reply('Hi'))
-greeterScene.on('text', (ctx) => {
-  if (ctx.message.text.toLowerCase() === 'hi') {
-    ctx.flow.leave()
-    return ctx.reply('Buy')
-  }
-  return ctx.reply('Hi again')
-})
+greeterScene.leave((ctx) => ctx.reply('Buy'))
+greeterScene.hears(/hi/gi, leave())
+greeterScene.on('message', (ctx) => ctx.reply('Send `hi`'))
 
 // Echo scene
 const echoScene = new Scene('echo')
 echoScene.enter((ctx) => ctx.reply('echo scene'))
-echoScene.command('back', (ctx) => {
-  ctx.flow.leave()
-  return ctx.reply('Okay')
-})
+echoScene.command('back', leave())
 echoScene.on('text', (ctx) => ctx.reply(ctx.message.text))
 echoScene.on('message', (ctx) => ctx.reply('Only text messages please'))
 
 // Scene registration
-flow.register(greeterScene)
-flow.register(echoScene)
+flow.register(greeterScene, echoScene)
 
 const app = new Telegraf(process.env.BOT_TOKEN)
 app.use(Telegraf.memorySession())

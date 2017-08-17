@@ -1,6 +1,6 @@
 {
   "name": "telegraf-flow",
-  "version": "8.1.2",
+  "version": "8.2.0",
   "description": "🚥 Control flow middleware for Telegraf",
   "main": "index.js",
   "repository": {
@@ -30,19 +30,20 @@
     "test": "eslint . && ava test"
   },
   "dependencies": {
-    "debug": "^2.2.0"
+    "debug": "^3.0.0"
   },
   "peerDependencies": {
-    "telegraf": "^3.3.0"
+    "telegraf": "^3.7.0"
   },
   "devDependencies": {
-    "ava": "^0.16.0",
-    "eslint": "^3.1.1",
-    "eslint-config-standard": "^6.2.0",
-    "eslint-plugin-ava": "^3.0.0",
-    "eslint-plugin-promise": "^3.3.0",
-    "eslint-plugin-standard": "^2.0.0",
-    "should": "^11.1.0",
-    "telegraf": "^3.3.0"
+    "ava": "^0.22.0",
+    "eslint": "^4.4.1",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-ava": "^4.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "telegraf": "^3.7.0"
   }
 }
