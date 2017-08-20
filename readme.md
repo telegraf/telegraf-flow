@@ -19,11 +19,6 @@ const Telegraf = require('telegraf')
 const TelegrafFlow = require('telegraf-flow')
 const { Scene } = TelegrafFlow
 
-const flow = new TelegrafFlow()
-
-// Global commands
-flow.command('greeter', (ctx) => ctx.flow.enter('greeter'))
-
 // Greeter scene
 const greeterScene = new Scene('greeter')
 greeterScene.enter((ctx) => ctx.reply('Hi'))
@@ -32,12 +27,14 @@ greeterScene.hears(/hi/gi, leave())
 greeterScene.on('message', (ctx) => ctx.reply('Send `hi`'))
 
 // Scene registration
+const flow = new TelegrafFlow()
 flow.register(greeterScene)
 
 const app = new Telegraf(process.env.BOT_TOKEN)
 // Flow requires valid Telegraf session
 app.use(Telegraf.memorySession())
 app.use(flow.middleware())
+app.command('greeter', (ctx) => ctx.flow.enter('greeter'))
 app.startPolling()
 ```
 
