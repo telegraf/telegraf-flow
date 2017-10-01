@@ -1,6 +1,6 @@
 const Telegraf = require('telegraf')
 const TelegrafFlow = require('../')
-const { WizardScene, enter } = TelegrafFlow
+const { WizardScene } = TelegrafFlow
 
 const superWizard = new WizardScene('super-wizard',
   (ctx) => {
