@@ -9,7 +9,7 @@ const superWizard = new WizardScene('super-wizard',
   },
   (ctx) => {
     if (ctx.message && ctx.message.text !== 'ok') {
-      return ctx.reply('Send ok')
+      return ctx.replyWithMarkdown('Send `ok`')
     }
     ctx.reply('Step 2 ')
     ctx.flow.wizard.next()
@@ -28,11 +28,8 @@ const superWizard = new WizardScene('super-wizard',
   }
 )
 
-const flow = new TelegrafFlow()
-flow.register(superWizard)
-
+const flow = new TelegrafFlow([superWizard], {defaultScene: 'super-wizard'})
 const app = new Telegraf(process.env.BOT_TOKEN)
 app.use(Telegraf.memorySession())
 app.use(flow.middleware())
-app.command('start', enter('super-wizard'))
 app.startPolling()
