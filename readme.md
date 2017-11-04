@@ -6,6 +6,8 @@
 
 > 🚥 Control flow middleware for [Telegraf](https://github.com/telegraf/telegraf).
 
+**Great news:** `telegraf@3.15.3` now supports [scene-based control flow (aka Stage)](http://telegraf.js.org/#/?id=stage) from the box.
+
 ## Installation
 
 ```js
